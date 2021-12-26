@@ -20,7 +20,7 @@ class Game {
 
         // default params
         this.playerSize = {length: 40, height: 40};
-        this.playerSpeed = 15;
+        this.playerSpeed = 6;
         this.screenWidth = 1920;
         this.screenHeight = 1080;
         this.fps = 10;
