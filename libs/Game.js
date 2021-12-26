@@ -43,9 +43,8 @@ class Game {
     run() {
         if (!this.intervalId) {
             this.intervalId = setInterval(() => {
-
                 this.calcAll();
-                this.io.emit("updateGame", this.dataToClients());
+                this.io.volatile.emit("updateGame", this.dataToClients());
             }, this.fps)
             console.log("game started\n");
         } else {
