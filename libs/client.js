@@ -1,10 +1,28 @@
 let socket = io();
 
-let name = prompt('Type here nickname');
-socket.emit("newPlayer", name);
+// check only digits and eng on input
+$("body").on("input", ".input-eng", function () {
+    this.value = this.value.replace(/[^a-z0-9\s]/gi, '');
+});
+
+// click join button
+$(".join_button").on("click", function () {
+    let name = $(".input-eng").val();
+    socket.emit("newPlayer", name);
+})
+
+// click enter || numEnter => click join button
+$('body').keypress(function (e) {
+    if (e.code === "NumpadEnter" || e.code === "Enter") {
+        $('.join_button').click();
+    }
+});
+
+$(".input-eng").focus();
 
 socket.on("startGame", (screenParams) => {
     console.log("game start on client");
+    $("#startMenu").hide();
 
     // update data from server
     let headers, players, cars, interval;
@@ -26,16 +44,6 @@ socket.on("startGame", (screenParams) => {
     });
 
     let ctx = initCtx(screenParams.width, screenParams.height);
-
-    // test screen
-    // let t = 25;
-    //
-    // ctx.fillStyle = "#FFFFFF"
-    // ctx.fillRect(0, 0, t, t);
-    // ctx.fillRect(screenParams.width - t, 0, t, t);
-    // ctx.fillRect(0, screenParams.height - t, t, t);
-    // ctx.fillRect(screenParams.width - t, screenParams.height - t, t, t);
-    // ctx.fillRect(screenParams.width / 2 - t, screenParams.height / 2 - t, t, t);
 
     interval = setInterval(() => {
         draw(ctx, headers, players, cars, screenParams);
@@ -62,11 +70,12 @@ function draw(ctx, headers, players, cars, screenParams) {
             if (!document.getElementById(header.id)) {
                 let div = document.getElementById("scoreboard").appendChild(document.createElement("div"));
                 div.setAttribute("id", header.id);
-                div.classList.add("txt");
+                div.classList.add("centered_text");
+                div.classList.add("centered_text");
                 div.style.color = header.color;
             }
 
-            document.getElementById(header.id).innerText = header.name + " - " + header.points + " points";
+            document.getElementById(header.id).innerText = header.name + "\n" + header.points + " points";
         }
     }
 

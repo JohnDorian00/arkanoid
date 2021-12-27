@@ -30,7 +30,7 @@ class Car extends Entity {
     randomizeCar() {
         let direction = this.randomNumber(0, 1),
             speed = this.randomNumber(3, 15),
-            y = this.randomNumber(1, 8) * 100, x;
+            y = this.randomNumber(2, 8) * 100, x;
 
         if (direction === 0) {
             x = this.randomNumber(1, 50) * -100;

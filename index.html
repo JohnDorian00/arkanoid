@@ -6,11 +6,18 @@
 </head>
 
 <style>
+    @font-face {
+        font-family: pixel;
+        src: url(static/fonts/GorgeousPixel.ttf);
+    }
+
     html, body {
         min-height: 100% !important;
         height: 100%;
         padding: 0;
         margin: 0;
+        color: #FFFFFF;
+        font-family: pixel, serif;
     }
 
     canvas {
@@ -19,22 +26,70 @@
         background-color: #000000;
     }
 
-    .txt {
-        height: 50px;
-        text-align: center;
+    .not_game {
+        position: absolute;
         width: 100%;
-        margin: auto;
-        font-size: 30px
+        text-align: center;
     }
+
+    .centered_text {
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+
+    .join_button {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .join_button:hover {
+        color: #ff0000;
+    }
+
+    .input-eng {
+        color: #FFFFFF;
+        font-family: pixel, serif;
+        background-color: #000000;
+        border: white 1px solid;
+        border-radius: 3px;
+        font-size: 1em;
+        caret-color: transparent;
+        text-align: center;
+        outline: none;
+    }
+
+    .input-eng:focus {
+        border: #ff0000 1px solid;
+    }
+
+    .input-eng::selection {
+        background-color: #ff0000;
+    }
+
 </style>
 
 <body>
-<div id="scoreboard" style="position: absolute; color: white; display: flex; width: 100%">
-    <div class="txt" id="position"></div>
+
+<div id="startMenu" class="not_game centered_text"
+     style="position:absolute; height: 100%; font-size: 5em; flex-direction: column">
+    <div style="margin-bottom: -12px">input your nickname</div>
+    <div style="font-size: 0.25em; margin-bottom: 20px">(empty for join as spectator)</div>
+    <input class="input-eng" style="margin-bottom: 40px; min-width: 900px" type="text" maxlength="20">
+    <div class="join_button">join</div>
 </div>
+
+<div id="scoreboard" class="not_game centered_text"
+     style="display: flex; justify-content: space-around; height: 100px; font-size: 2em">
+    <div class="txt" id="position" style="display: none"></div>
+</div>
+
 <canvas id="field">Обновите браузер</canvas>
+
 </body>
 
+<script src="libs/jquery-3.6.0.min.js"></script>
 <script src="libs/socket.io.js"></script>
 <script src="libs/client.js"></script>
+
 </html>

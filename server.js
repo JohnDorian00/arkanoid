@@ -11,6 +11,7 @@ const {Game} = require("./libs/Game");
 
 // load static
 app.use('/libs', express.static(__dirname + '/libs'));
+app.use('/static', express.static(__dirname + '/static'));
 // routes
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html")
