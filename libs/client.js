@@ -20,6 +20,7 @@ $('body').keypress(function (e) {
 
 $(".input-eng").focus();
 
+
 socket.on("startGame", (screenParams) => {
     console.log("game start on client");
     $("#startMenu").hide();
@@ -34,14 +35,50 @@ socket.on("startGame", (screenParams) => {
         }
     })
 
-    // Send key to server
-    window.addEventListener('keydown', function (e) {
-        socket.volatile.emit("control", e.code, true);
-    });
+    // Send key to server (mobile/pc)
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        $("#mobileGamepad").css("display", "flex");
+        let up = $("#padUp"), down = $("#padDown"), left = $("#padLeft"), right = $("#padRight");
 
-    window.addEventListener('keyup', function (e) {
-        socket.volatile.emit("control", e.code, false);
-    });
+        up.on("touchstart ", function () {
+            socket.volatile.emit("control", "KeyW", true);
+        })
+        up.on("touchend ", function () {
+            socket.volatile.emit("control", "KeyW", false);
+        })
+
+        down.on("touchstart ", function () {
+            socket.volatile.emit("control", "KeyS", true);
+        })
+        down.on("touchend ", function () {
+            socket.volatile.emit("control", "KeyS", false);
+        })
+
+        left.on("touchstart ", function () {
+            socket.volatile.emit("control", "KeyA", true);
+        })
+        left.on("touchend ", function () {
+            socket.volatile.emit("control", "KeyA", false);
+        })
+
+        right.on("touchstart ", function () {
+            socket.volatile.emit("control", "KeyD", true);
+        })
+        right.on("touchend ", function () {
+            socket.volatile.emit("control", "KeyD", false);
+        })
+
+        $(document).bind("contextmenu", function (e) {
+            return false;
+        });
+    } else {
+        window.addEventListener('keydown', function (e) {
+            socket.volatile.emit("control", e.code, true);
+        });
+        window.addEventListener('keyup', function (e) {
+            socket.volatile.emit("control", e.code, false);
+        });
+    }
 
     let ctx = initCtx(screenParams.width, screenParams.height);
 
